@@ -1,0 +1,56 @@
+{% extends "baseNav.html" %}
+{% load static %}
+{% block Title %}Home | {% endblock Title %}
+{% block head %}
+<style>
+    .movie-card:hover {
+        transform: scale(1.05);
+        transition: transform 0.3s;
+    }
+    .movie-card img {
+        height: 300px;
+        object-fit: cover;
+    }
+</style>
+{% endblock head %}
+
+{% block body %}
+<div class="container mb-3">
+    <h4>Results for : <span class="text-info">Action</span></h4>
+</div>
+
+<div class="container">
+    <div class="row g-3">
+    {%for movie in videos%}
+      <!-- Movie Card Example -->
+      <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+        <div class="card bg-dark text-white movie-card border-0">
+        <a href="{%url "video-detail" pk=movie.pk%}">
+          <img src="{{movie.thumbnail_url}}" class="card-img-top" alt="Movie Title" />
+        </a>
+          <div class="card-body p-2">
+            <h6 class="card-title mb-1">{{movie.title}}</h6>
+            <p class="card-text text-muted" style="font-size: 0.8rem;"></p>
+          </div>
+        </div>
+      </div>
+    {%endfor%}
+
+      <!-- Repeat above col div for more movies -->
+    </div>
+  </div>
+
+  <div class="container my-4 d-flex justify-content-center">
+    <nav>
+      <ul class="pagination pagination-sm">
+        <li class="page-item"><a class="page-link bg-dark text-white border-secondary" href="#">Prev</a></li>
+        <li class="page-item"><a class="page-link bg-info text-white border-info" href="#">1</a></li>
+        <li class="page-item"><a class="page-link bg-dark text-white border-secondary" href="#">2</a></li>
+        <li class="page-item"><a class="page-link bg-dark text-white border-secondary" href="#">Next</a></li>
+      </ul>
+    </nav>
+  </div>
+
+{%endblock body%}
+
+

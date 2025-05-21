@@ -1,0 +1,115 @@
+{% extends "baseNav.html" %}
+{% load static %}
+{% block Title %}Home | {% endblock Title %}
+{% block head %}
+<style>
+  .carousel-wrapper {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  .movie-carousel {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    gap: 1rem;
+    padding: 1rem 0;
+  }
+
+  .movie-card {
+    flex: 0 0 auto;
+    width: 18rem;
+  }
+
+  .scroll-btn {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #333;
+  }
+
+  .scroll-btn:disabled {
+    color: #ccc;
+    cursor: not-allowed;
+  }
+
+  .movie-card:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s;
+}
+.movie-card img {
+    height: 300px;
+    {% comment %} object-fit: cover; {% endcomment %}
+}
+</style>
+{% endblock head %}
+
+{% block body %}
+<div class="accordion" id="accordionPanelsStayOpenExample">
+  {% for genre in genres %}
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="heading{{ forloop.counter }}">
+        <button
+          class="accordion-button"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#collapse{{ forloop.counter }}"
+          aria-expanded="true"
+          aria-controls="collapse{{ forloop.counter }}"
+        >
+          Movies on {{ genre.name }}
+        </button>
+      </h2>
+      <div
+        id="collapse{{ forloop.counter }}"
+        class="accordion-collapse collapse show"
+        aria-labelledby="heading{{ forloop.counter }}"
+      >
+        <div class="accordion-body">
+          <div class="carousel-wrapper">
+            <button class="scroll-btn" onclick="scrollCarousel('{{ genre.id }}', -1)">&#8592;</button>
+
+            <div class="movie-carousel" id="carousel-{{ genre.id }}">
+              {% for movie in videos %}
+                {% if genre in movie.genres.all %}
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                  <div class="card bg-dark text-white movie-card border-0">
+                  <a href="{%url "video-detail" pk=movie.pk%}">
+                    <img src="{{movie.thumbnail_url}}" class="card-img-top" alt="Movie Title" />
+                  </a>
+                    <div class="card-body p-2">
+                      <h6 class="card-title mb-1">{{movie.title}}</h6>
+                      <p class="card-text text-muted" style="font-size: 0.8rem;"></p>
+                    </div>
+                  </div>
+                </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+
+            <button class="scroll-btn" onclick="scrollCarousel('{{ genre.id }}', 1)">&#8594;</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{%endblock body%}
+{% block addScript %}
+<script>
+  function scrollCarousel(genreId, direction) {
+    const container = document.getElementById("carousel-" + genreId);
+    const card = container.querySelector(".movie-card");
+    if (!card) return;
+
+    const scrollAmount = (card.offsetWidth + 16) * 3; // 3 cards with margin
+    container.scrollBy({
+      left: direction * scrollAmount,
+      behavior: "smooth"
+    });
+  }
+</script>
+{% endblock addScript %}
+

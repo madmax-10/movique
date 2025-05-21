@@ -1,0 +1,3 @@
+{% for genre in genres %}
+    <li><a class="dropdown-item" href="{%url "videos" filter="genre" text=genre%}">{{genre.name}}</a></li>
+{% endfor %}

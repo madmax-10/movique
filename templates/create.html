@@ -1,0 +1,12 @@
+{% extends "base.html" %} {% block title %}Create{% endblock title %}
+{% block body %}
+<div class="container">
+  <form class="d-flex flex-column gap-4" enctype="multipart/form-data" method="POST">
+    {% csrf_token %}
+    <h2>Create a new post</h2>
+    {{form}}
+    <button type="submit">Submit</button>
+  </form>
+</div>
+
+{% endblock body %}

@@ -1,0 +1,45 @@
+{% extends "baseNav.html" %}
+
+{% block head %}
+  <!-- Video.js v7 core CSS -->
+  <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
+{% endblock head %}
+
+{% block body %}
+  <div class="container">
+    <video
+      id="my-video"
+      class="video-js vjs-default-skin vjs-big-play-centered"
+      controls
+      preload="auto"
+      width="720"
+      height="405"
+    >
+      <p class="vjs-no-js">
+        To view this video please enable JavaScript and consider upgrading to a
+        browser that supports HTML5 video.
+        <a href="https://videojs.com/html5-video-support/" target="_blank">
+          Learn more
+        </a>
+      </p>
+    </video>
+  </div>
+<!-- Video.js v7 core script -->
+<script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+<!-- YouTube tech plugin v2 (compatible with v7) -->
+<script src="https://cdn.jsdelivr.net/npm/videojs-youtube@2.6.1/dist/Youtube.min.js"></script>
+
+<script>
+  videojs('my-video', {
+    techOrder: ['youtube'],
+    sources: [{
+      type: 'video/youtube',
+      src: '{{ object.url }}'
+    }],
+    playbackRates: [0.5, 1, 1.5, 2],
+    fluid: true
+  });
+</script>
+
+{% endblock body %}
+  

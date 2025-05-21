@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% load static %}
+{% load nav_tags %}
+
+{% block navBut %}
+
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+  <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    <li class="nav-item">
+      <a class="nav-link" href="#">Movies</a>
+    </li>
+    <li class="nav-item dropdown">
+      <a
+        class="nav-link dropdown-toggle"
+        href="#"
+        role="button"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        Genre
+      </a>
+      <ul class="dropdown-menu">
+        {% load_nav_data %}
+      </ul>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">Anime</a>
+    </li>
+  </ul>
+  <div class="d-flex gap-2 flex-row-reverse align-items-center">
+    {% if user.is_authenticated %}
+    <div class="nav-item dropdown me-5">
+      <a
+        class="nav-link dropdown-toggle"
+        href="#"
+        role="button"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        <img
+          src="https://github.com/mdo.png"
+          alt="mdo"
+          width="32"
+          height="32"
+          class="rounded-circle"
+        />
+      </a>
+      <ul
+        class="dropdown-menu gap-1 p-2 rounded-3 mx-0 border-0 shadow"
+        data-bs-theme="light"
+      >
+        <li><a class="dropdown-item rounded-2" href="/create/">Action</a></li>
+        <li>
+          <a class="dropdown-item rounded-2" href="#">Another action</a>
+        </li>
+        <li>
+          <a class="dropdown-item rounded-2" href="#">Something else here</a>
+        </li>
+        <li><hr class="dropdown-divider" /></li>
+        <li>
+          <a class="dropdown-item rounded-2" href="/logout/">Logout</a>
+        </li>
+      </ul>
+    </div>
+
+    {% else %}
+    <a href="/signin/">
+      <button type="button" class="btn btn-outline-danger">Sign In</button>
+    </a>
+    {% endif %}
+
+    <form class="d-flex" role="search" onsubmit="handleSearch(); return false;">
+      <input
+        class="form-control me-2"
+        type="search"
+        placeholder="Search"
+        aria-label="Search"
+        id="search-input"
+      />
+      <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+  </div>
+</div>
+{% endblock navBut %}
+{% block script %}
+<script>
+    function handleSearch() {
+      const query = document.getElementById('search-input').value;
+      // Redirect to another page with query
+      window.location.href = `/search/${encodeURIComponent(query)}`;
+  
+      // Or: console.log(query); or fetch API etc.
+    }
+  </script>
+{% endblock script %}
